@@ -17,18 +17,21 @@ spec:
       labels:
         app: {{ $name }}
     spec:
+      {{- $configPort := index (index (index $.Values.services "config-server") "service") "port" }}
+      {{- $discoveryPort := index (index (index $.Values.services "discovery-server") "service") "port" }}
+
       {{- if eq $name "discovery-server" }}
       initContainers:
       - name: wait-for-config-server
         image: busybox
-        command: ["sh", "-c", "until wget -q --spider http://config-server:{{ $.Values.services.config-server.service.port }}/; do echo waiting for config server; sleep 2; done;"]
+        command: ["sh", "-c", "until wget -q --spider http://config-server:{{ $configPort }}/; do echo waiting for config server; sleep 2; done;"]
       {{- end }}
-      
+
       {{- if and (ne $name "discovery-server") (ne $name "config-server") }}
       initContainers:
       - name: wait-for-discovery-server
         image: busybox
-        command: ["sh", "-c", "until wget -q --spider http://discovery-server:{{ $.Values.services.discovery-server.service.port }}/; do echo waiting for discovery server; sleep 2; done;"]
+        command: ["sh", "-c", "until wget -q --spider http://discovery-server:{{ $discoveryPort }}/; do echo waiting for discovery server; sleep 2; done;"]
       {{- end }}
 
       containers:
@@ -40,11 +43,11 @@ spec:
         {{- if ne $name "config-server" }}
         env:
         - name: SPRING_CLOUD_CONFIG_URI
-          value: http://config-server:{{ $.Values.services.config-server.service.port }}
+          value: http://config-server:{{ $configPort }}
         - name: SPRING_PROFILES_ACTIVE
           value: docker
         - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          value: http://discovery-server:{{ $.Values.services.discovery-server.service.port }}/eureka/
+          value: http://discovery-server:{{ $discoveryPort }}/eureka/
         {{- end }}
         resources:
           {{- toYaml $service.resources | nindent 12 }}
