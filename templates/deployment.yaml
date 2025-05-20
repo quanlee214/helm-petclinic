@@ -22,12 +22,15 @@ spec:
       - name: wait-for-config-server
         image: busybox
         command: ["sh", "-c", "until wget -q --spider http://config-server:{{ $.Values.services.config-server.service.port }}/; do echo waiting for config server; sleep 2; done;"]
-      {{- else if ne $name "config-server" }}
+      {{- end }}
+      
+      {{- if and (ne $name "discovery-server") (ne $name "config-server") }}
       initContainers:
       - name: wait-for-discovery-server
         image: busybox
         command: ["sh", "-c", "until wget -q --spider http://discovery-server:{{ $.Values.services.discovery-server.service.port }}/; do echo waiting for discovery server; sleep 2; done;"]
       {{- end }}
+
       containers:
       - name: {{ $name }}
         image: "{{ $.Values.global.dockerhubRepo }}{{ $service.image.repository }}:{{ $service.image.tag }}"
