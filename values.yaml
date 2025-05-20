@@ -1,0 +1,136 @@
+global:
+  dockerhubRepo: "hykura/"
+  namespace: "dev"
+  imagePullPolicy: "Always"
+
+services:
+  config-server:
+    enabled: true
+    image:
+      repository: spring-petclinic-config-server
+      tag: latest
+    service:
+      type: NodePort
+      port: 8888
+      nodePort: 30001
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "200m"
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 8888
+      initialDelaySeconds: 30
+      periodSeconds: 10
+
+  discovery-server:
+    enabled: true
+    image:
+      repository: spring-petclinic-discovery-server
+      tag: latest
+    service:
+      type: NodePort
+      port: 8761
+      nodePort: 30002
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "200m"
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 8761
+      initialDelaySeconds: 30
+      periodSeconds: 10
+
+  customers-service:
+    enabled: true
+    image:
+      repository: spring-petclinic-customers-service
+      tag: latest
+    service:
+      type: NodePort
+      port: 8081
+      nodePort: 30003
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "200m"
+
+  visits-service:
+    enabled: true
+    image:
+      repository: spring-petclinic-visits-service
+      tag: latest
+    service:
+      type: NodePort
+      port: 8082
+      nodePort: 30004
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "200m"
+
+  vets-service:
+    enabled: true
+    image:
+      repository: spring-petclinic-vets-service
+      tag: latest
+    service:
+      type: NodePort
+      port: 8083
+      nodePort: 30005
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "200m"
+
+  api-gateway:
+    enabled: true
+    image:
+      repository: spring-petclinic-api-gateway
+      tag: latest
+    service:
+      type: NodePort
+      port: 8080
+      nodePort: 30006
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "200m"
+
+  admin-server:
+    enabled: true
+    image:
+      repository: spring-petclinic-admin-server
+      tag: latest
+    service:
+      type: NodePort
+      port: 9090
+      nodePort: 30007
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "200m" 
