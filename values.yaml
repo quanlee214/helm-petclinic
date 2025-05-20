@@ -13,13 +13,6 @@ services:
       type: NodePort
       port: 8888
       nodePort: 30001
-    resources:
-      requests:
-        memory: "256Mi"
-        cpu: "100m"
-      limits:
-        memory: "512Mi"
-        cpu: "200m"
     readinessProbe:
       httpGet:
         path: /
@@ -36,13 +29,6 @@ services:
       type: NodePort
       port: 8761
       nodePort: 30002
-    resources:
-      requests:
-        memory: "256Mi"
-        cpu: "100m"
-      limits:
-        memory: "512Mi"
-        cpu: "200m"
     readinessProbe:
       httpGet:
         path: /
@@ -59,13 +45,6 @@ services:
       type: NodePort
       port: 8081
       nodePort: 30003
-    resources:
-      requests:
-        memory: "256Mi"
-        cpu: "100m"
-      limits:
-        memory: "512Mi"
-        cpu: "200m"
 
   visits-service:
     enabled: true
@@ -76,13 +55,6 @@ services:
       type: NodePort
       port: 8082
       nodePort: 30004
-    resources:
-      requests:
-        memory: "256Mi"
-        cpu: "100m"
-      limits:
-        memory: "512Mi"
-        cpu: "200m"
 
   vets-service:
     enabled: true
@@ -93,13 +65,6 @@ services:
       type: NodePort
       port: 8083
       nodePort: 30005
-    resources:
-      requests:
-        memory: "256Mi"
-        cpu: "100m"
-      limits:
-        memory: "512Mi"
-        cpu: "200m"
 
   api-gateway:
     enabled: true
@@ -110,13 +75,6 @@ services:
       type: NodePort
       port: 8080
       nodePort: 30006
-    resources:
-      requests:
-        memory: "256Mi"
-        cpu: "100m"
-      limits:
-        memory: "512Mi"
-        cpu: "200m"
 
   admin-server:
     enabled: true
@@ -127,10 +85,3 @@ services:
       type: NodePort
       port: 9090
       nodePort: 30007
-    resources:
-      requests:
-        memory: "256Mi"
-        cpu: "100m"
-      limits:
-        memory: "512Mi"
-        cpu: "200m" 
