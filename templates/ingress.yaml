@@ -5,12 +5,12 @@ metadata:
   annotations:
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
+  ingressClassName: {{ .Values.ingress.className }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host }}
+    - host: petclinic-{{ .Release.Namespace }}.local
       http:
         paths:
-          {{- range .paths }}
+          {{- range .Values.ingress.hosts[0].paths }}
           - path: {{ .path }}
             pathType: {{ .pathType }}
             backend:
@@ -19,4 +19,3 @@ spec:
                 port:
                   number: 80
           {{- end }}
-    {{- end }}
