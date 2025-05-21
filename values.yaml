@@ -1,5 +1,5 @@
 global:
-  dockerhubRepo: "hykura/"
+  dockerhubRepo: "phanphuc269/"
   namespace: "dev"
   imagePullPolicy: "Always"
 
