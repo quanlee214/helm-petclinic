@@ -7,15 +7,13 @@ metadata:
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
-    - host: petclinic-{{ .Release.Namespace }}.local
+    - host: {{ regexReplaceAll "^petclinic-" .Release.Namespace "" }}.petclinic.local
       http:
         paths:
-          {{- range .Values.ingress.hosts[0].paths }}
-          - path: {{ .path }}
-            pathType: {{ .pathType }}
+          - path: /
+            pathType: Prefix
             backend:
               service:
-                name: {{ include "spring-petclinic.fullname" $ }}
+                name: {{ include "spring-petclinic.fullname" . }}
                 port:
                   number: 80
-          {{- end }}

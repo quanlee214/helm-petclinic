@@ -3,7 +3,7 @@ ingress:
   className: nginx
   annotations: {}
   hosts:
-    - host: placeholder.local   # Giá trị tạm, sẽ override trong ingress.yaml
+    - host: petclinic   # Giá trị tạm, sẽ override trong ingress.yaml
       paths:
         - path: /
           pathType: Prefix
