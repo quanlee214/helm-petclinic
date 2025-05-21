@@ -27,10 +27,6 @@ services:
     image:
       tag: *tag
 
-  genai-service:
-    image:
-      tag: *tag
-
   api-gateway:
     image:
       tag: *tag

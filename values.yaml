@@ -82,16 +82,6 @@ services:
       - *configServerEnv
     dependOn: *dependOnEureka
 
-  genai-service:
-    ports:
-      port: 8084
-      targetPort: 8084
-    image:
-      name: spring-petclinic-genai-service
-    env: 
-      - *configServerEnv
-    dependOn: *dependOnEureka
-
   api-gateway:
     ports:
       port: 8080
@@ -101,15 +91,3 @@ services:
     env: 
       - *configServerEnv
     dependOn: *dependOnEureka
-
-
-  tracing-server:
-    dockerRepository: openzipkin
-    ports:
-      port: 9411
-      targetPort: 9411
-    image:
-      name: zipkin
-    env: 
-      - *configServerEnv
- 
