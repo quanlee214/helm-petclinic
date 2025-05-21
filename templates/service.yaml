@@ -1,20 +1,21 @@
 {{- range $name, $service := .Values.services }}
-{{- if $service.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ $name }}
-  namespace: {{ $.Values.global.namespace }}
+  labels:
+    app: {{ $name }}
+  namespace: {{ $.Values.namespace }}
 spec:
-  type: {{ $service.service.type }}
+  type: {{ $service.type | default "ClusterIP" }}   # Default to ClusterIP if not set in values.yaml
   selector:
     app: {{ $name }}
   ports:
-    - port: {{ $service.service.port }}
-      targetPort: {{ $service.service.port }}
-      {{- if eq $service.service.type "NodePort" }}
-      nodePort: {{ $service.service.nodePort }}
+    - protocol: TCP
+      port: {{ $service.ports.port }}         # Exposed port inside the cluster
+      targetPort: {{ $service.ports.targetPort | default 0 }}   # Container port
+      {{- if eq $service.type "NodePort" }}
+      nodePort: {{ $service.ports.nodePort }}  # Only define nodePort if the service type is NodePort
       {{- end }}
 ---
 {{- end }}
-{{- end }} 

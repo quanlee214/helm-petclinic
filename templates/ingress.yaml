@@ -1,34 +1,41 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "spring-petclinic.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.ingress.name }}
+  namespace: {{ .Values.namespace }}
   annotations:
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  ingressClassName: {{ .Values.ingress.className }}
+  ingressClassName: nginx
   rules:
-    - host: {{ regexReplaceAll "^petclinic-" .Release.Namespace "" }}.petclinic.local
+    - host: {{ .Values.namespace }}-{{ .Values.ingress.host }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: api-gateway
+                name: {{ .Values.ingress.userServiceName }}
                 port:
-                  number: 80
-          - path: /eureka
+                  number: {{ .Values.ingress.userServicePort }}
+    - host: admin.{{ .Values.namespace }}-{{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /
             pathType: Prefix
             backend:
               service:
-                name: discovery-server
+                name: {{ .Values.ingress.adminServiceName }}
                 port:
-                  number: 8761
-          - path: /admin
+                  number: {{ .Values.ingress.adminServicePort }}
+    - host: eureka.{{ .Values.namespace }}-{{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /
             pathType: Prefix
             backend:
               service:
-                name: admin-server
+                name: {{ .Values.ingress.eurekaServiceName }}
                 port:
-                  number: 9100
+                  number: {{ .Values.ingress.eurekaServicePort }}
+          

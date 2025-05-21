@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pet-clinic-dev
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: 'https://github.com/phanphuc269/helm-petclinic.git' # Replace with your Git repository URL
+    targetRevision: HEAD                # Replace with the branch or tag to deploy
+    path: .        # Path to the Helm chart in the repository
+    helm:
+      valueFiles:
+        - values.yaml                   # Default values
+        - environments/values-dev.yaml  # Dev-specific overrides
+
+  destination:
+    server: 'https://kubernetes.default.svc' # Kubernetes cluster API server
+    namespace: dev                          # Namespace for the dev environment
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
