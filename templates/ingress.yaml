@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "spring-petclinic.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   annotations:
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
@@ -14,6 +15,20 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ include "spring-petclinic.fullname" . }}
+                name: api-gateway
                 port:
                   number: 80
+          - path: /eureka
+            pathType: Prefix
+            backend:
+              service:
+                name: discovery-server
+                port:
+                  number: 8761
+          - path: /admin
+            pathType: Prefix
+            backend:
+              service:
+                name: admin-server
+                port:
+                  number: 9100
