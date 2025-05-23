@@ -8,7 +8,7 @@ metadata:
 spec:
   type: LoadBalancer
   rules:
-    - host: argocd.phanphuc.id.vn
+    - host: argocd.quanlee.id.vn
       http:
         paths:
           - path: /
