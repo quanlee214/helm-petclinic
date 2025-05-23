@@ -2,7 +2,7 @@ namespace: dev
 imagePullPolicy: IfNotPresent
 
 docker:
-  repository: phanphuc269
+  repository: quanle214
 
 ingress:
   name: spring-petclinic-ingress
