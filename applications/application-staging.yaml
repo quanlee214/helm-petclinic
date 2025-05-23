@@ -7,7 +7,7 @@ spec:
   project: default
 
   source:
-    repoURL: 'https://github.com/phanphuc269/helm-petclinic.git' # Replace with your Git repository URL
+    repoURL: 'https://github.com/quanlee214/helm-petclinic.git' # Replace with your Git repository URL
     targetRevision: HEAD                # Replace with the branch or tag to deploy
     path: .        # Path to the Helm chart in the repository
     helm:
